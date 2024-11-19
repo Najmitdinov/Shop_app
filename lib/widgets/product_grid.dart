@@ -90,7 +90,7 @@ class ProductGrid extends StatelessWidget {
         children: [
           product.discount > 0
               ? box(
-                  product.color,
+                   product.color,
                   '${product.discount}% chegirma',
                   Colors.white,
                 )
@@ -231,7 +231,10 @@ class ProductGrid extends StatelessWidget {
                     )
                   : Padding(
                       padding: const EdgeInsets.only(
-                          bottom: 50.0, left: 50, right: 50),
+                        bottom: 50.0,
+                        left: 50,
+                        right: 50,
+                      ),
                       child: Image.network(
                         product.imgUrl[0],
                         fit: BoxFit.contain,

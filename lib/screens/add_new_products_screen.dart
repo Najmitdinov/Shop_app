@@ -30,7 +30,7 @@ class _AddNewProductsScreenState extends State<AddNewProductsScreen> {
     quality: '',
     discount: 0,
     price: 0.0,
-    color: Colors.transparent,
+    color: Colors.black,
   );
 
   void selectColor(BuildContext context) {
@@ -415,7 +415,7 @@ class _AddNewProductsScreenState extends State<AddNewProductsScreen> {
                             activeColor: Colors.amber,
                           )
                         : Checkbox(
-                            value: isCheck,
+                            value: isCheck = true,
                             onChanged: (value) {
                               setState(() {
                                 isCheck = value!;
