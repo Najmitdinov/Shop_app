@@ -46,7 +46,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           ),
           if (isExpanded)
             SizedBox(
-              height: min(widget.order.product.length * 50 + 10, 100),
+              height: min(widget.order.product.length * 50 + 20, 100),
               child: ListView.builder(
                 itemBuilder: (ctx, index) {
                   final productOrder = widget.order.product[index];
