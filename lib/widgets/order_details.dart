@@ -26,7 +26,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         children: [
           ListTile(
             title: Text(
-              'Buyurtma kodi: ${widget.id}',
+              'Buyurtma kodi: [${widget.date.microsecond}]',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 17,
@@ -77,9 +77,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     subtitle: Text(
                       '\$${productOrder.price.toStringAsFixed(2)}',
                       style: const TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold
-                      ),
+                          color: Colors.grey, fontWeight: FontWeight.bold),
                     ),
                     trailing: Text(
                       'x${productOrder.quantity}',

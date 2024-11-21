@@ -15,6 +15,11 @@ class ManageProductScreen extends StatelessWidget {
 
   static const routeName = '/manage-product-screen';
 
+  Future<void> refreshScreen(BuildContext context) async {
+    await Provider.of<Products>(context, listen: false)
+        .getProductsFromFireBase();
+  }
+
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<Products>(context);
@@ -31,16 +36,19 @@ class ManageProductScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(10),
-        itemBuilder: (ctx, index) {
-          final product = products.list[index];
-          return ChangeNotifierProvider.value(
-            value: product,
-            child: const ManagaProductDetails(),
-          );
-        },
-        itemCount: products.list.length,
+      body: RefreshIndicator(
+        onRefresh: () => refreshScreen(context),
+        child: ListView.builder(
+          padding: const EdgeInsets.all(10),
+          itemBuilder: (ctx, index) {
+            final product = products.list[index];
+            return ChangeNotifierProvider.value(
+              value: product,
+              child: const ManagaProductDetails(),
+            );
+          },
+          itemCount: products.list.length,
+        ),
       ),
     );
   }

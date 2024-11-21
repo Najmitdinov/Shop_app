@@ -90,7 +90,7 @@ class ProductGrid extends StatelessWidget {
         children: [
           product.discount > 0
               ? box(
-                   product.color,
+                  product.color,
                   '${product.discount}% chegirma',
                   Colors.white,
                 )

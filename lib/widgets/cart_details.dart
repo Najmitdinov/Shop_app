@@ -60,8 +60,7 @@ class CartDetails extends StatelessWidget {
     final carts = Provider.of<Carts>(context);
     final cart = Provider.of<CartItem>(context);
     final products = Provider.of<Products>(context);
-    final product =
-        products.list.firstWhere((product) => product.id == productId);
+    final product = products.findById(productId);
 
     return Slidable(
       endActionPane: ActionPane(

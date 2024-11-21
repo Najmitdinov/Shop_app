@@ -116,12 +116,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ];
           },
-          body: Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 10, right: 10),
+          body: const Padding(
+            padding:  EdgeInsets.only(top: 10.0, left: 10, right: 10),
             child: TabBarView(
               children: [
-                ProductDetails(showFavorites),
-                FavoriteProductDetails(showFavorites),
+                ProductDetails(),
+                FavoriteProductDetails(),
               ],
             ),
           ),

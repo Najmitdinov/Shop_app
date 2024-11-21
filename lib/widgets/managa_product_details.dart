@@ -11,10 +11,45 @@ import '../screens/add_new_products_screen.dart';
 class ManagaProductDetails extends StatelessWidget {
   const ManagaProductDetails({super.key});
 
+  void notifyUser(BuildContext context, Function() handler) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: const Text('Ishonchigiz komilmi?'),
+          content: const Text('Mahsulot o\'chirilmoqda!'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text(
+                'BEKOR QILISH',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: handler,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              child: const Text(
+                'O\'CHIRISH',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context);
     final products = Provider.of<Products>(context);
+    final scaffoldMessanger = ScaffoldMessenger.of(context);
     return Card(
       child: ListTile(
         leading: CircleAvatar(
@@ -61,7 +96,28 @@ class ManagaProductDetails extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                products.deleteAllProduct(product.id);
+                notifyUser(
+                  context,
+                  () async {
+                    try {
+                      Navigator.of(context).pop();
+                      await Provider.of<Products>(context, listen: false)
+                          .deleteAllProduct(product.id);
+                    } catch (error) {
+                      scaffoldMessanger.showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.amber,
+                          content: Text(
+                            error.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                );
               },
               icon: const Icon(
                 Icons.delete,

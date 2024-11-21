@@ -20,7 +20,6 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final carts = Provider.of<Carts>(context);
-    final orders = Provider.of<Orders>(context);
     final products = Provider.of<Products>(context);
     return Scaffold(
       appBar: AppBar(
@@ -96,36 +95,7 @@ class CartScreen extends StatelessWidget {
             ),
             const Spacer(),
             carts.list.isNotEmpty
-                ? ElevatedButton(
-                    onPressed: () {
-                      if (carts.list.isEmpty) {
-                        return;
-                      }
-                      orders.addToOrders(
-                        carts.list.values.toList(),
-                      );
-                      carts.clearCart();
-                      products.resetThePrice();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 100,
-                        vertical: 10,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      'Xarid qilish \$${carts.totalSum().toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 19,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
+                ? OrderBottom(carts: carts, products: products)
                 : ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pushReplacementNamed(
@@ -154,6 +124,72 @@ class CartScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class OrderBottom extends StatefulWidget {
+  const OrderBottom({
+    super.key,
+    required this.carts,
+    required this.products,
+  });
+
+  final Carts carts;
+  final Products products;
+
+  @override
+  State<OrderBottom> createState() => _OrderBottomState();
+}
+
+class _OrderBottomState extends State<OrderBottom> {
+  var isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () async {
+        if (widget.carts.list.isEmpty) {
+          return;
+        }
+        setState(() {
+          isLoading = true;
+        });
+        try {
+          await Provider.of<Orders>(context, listen: false).addToOrders(
+            widget.carts.list.values.toList(),
+          );
+        } catch (error) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+
+        widget.carts.clearCart();
+        widget.products.resetThePrice();
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.black,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 100,
+          vertical: 10,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      child: isLoading
+          ? const CircularProgressIndicator(
+              color: Colors.white,
+            )
+          : Text(
+              'Xarid qilish \$${widget.carts.totalSum().toStringAsFixed(2)}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 19,
+                color: Colors.white,
+              ),
+            ),
     );
   }
 }
