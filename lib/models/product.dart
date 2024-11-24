@@ -29,21 +29,17 @@ class Product with ChangeNotifier {
     this.isLike = false,
   });
 
-  Future<void> toggleLike() async {
+  Future<void> toggleLike(String token, String userId) async {
     var oldIsLike = isLike;
     isLike = !isLike;
     notifyListeners();
     final url = Uri.parse(
-        'https://fir-app-af62a-default-rtdb.firebaseio.com/products/$id.json');
+        'https://fir-app-af62a-default-rtdb.firebaseio.com/isFavorite/$userId/$id.json?auth=$token');
 
     try {
-      final response = await http.patch(
+      final response = await http.put(
         url,
-        body: jsonEncode(
-          {
-            'isLike': isLike,
-          },
-        ),
+        body: jsonEncode(isLike),
       );
       if (response.statusCode >= 400) {
         isLike = oldIsLike;

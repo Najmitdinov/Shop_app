@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
+import '../providers/auth.dart';
+
 import '../models/product.dart';
 
 class ProductItemDetails extends StatefulWidget {
@@ -17,8 +21,10 @@ class ProductItemDetails extends StatefulWidget {
 }
 
 class _ProductItemDetailsState extends State<ProductItemDetails> {
+  
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<Auth>(context);
     return Container(
       margin: const EdgeInsets.only(top: 330),
       height: widget.deviceHieght * 0.54,
@@ -70,7 +76,7 @@ class _ProductItemDetailsState extends State<ProductItemDetails> {
                 IconButton(
                   onPressed: () {
                     setState(() {
-                      widget.product.toggleLike();
+                      widget.product.toggleLike(auth.toket!, auth.userId!);
                     });
                   },
                   icon: Icon(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class MyShopStyles {
   static ThemeData theme = ThemeData(
+    primaryColor: Colors.amber,
+    primarySwatch: Colors.amber,
     appBarTheme: const AppBarTheme(
       titleTextStyle: TextStyle(
         fontSize: 22,

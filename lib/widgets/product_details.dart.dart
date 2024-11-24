@@ -35,7 +35,9 @@ class _ProductDetailsState extends State<ProductDetails> {
       builder: (ctx, dataSnapShot) {
         if (dataSnapShot.connectionState == ConnectionState.waiting) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Colors.amber,
+            ),
           );
         } else {
           if (dataSnapShot.error == null) {

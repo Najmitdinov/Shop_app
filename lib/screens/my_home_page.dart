@@ -11,7 +11,7 @@ import '../widgets/product_details.dart.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
-  static const routeName = '/';
+  static const routeName = '/my-home-page';
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -85,14 +85,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: TabBar(
                         dividerColor: Colors.transparent,
                         indicator: const UnderlineTabIndicator(
-                            borderSide: BorderSide(
-                          color: Colors.transparent,
-                        )),
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                          ),
+                        ),
                         onTap: (ind) {
-                          setState(() {
-                            initialPage = ind;
-                            showFavorites = initialPage != 0;
-                          });
+                          setState(
+                            () {
+                              initialPage = ind;
+                              showFavorites = initialPage != 0;
+                            },
+                          );
                         },
                         splashFactory: NoSplash.splashFactory,
                         labelStyle: const TextStyle(
@@ -117,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ];
           },
           body: const Padding(
-            padding:  EdgeInsets.only(top: 10.0, left: 10, right: 10),
+            padding: EdgeInsets.only(top: 10.0, left: 10, right: 10),
             child: TabBarView(
               children: [
                 ProductDetails(),

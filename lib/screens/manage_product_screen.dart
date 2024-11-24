@@ -17,12 +17,11 @@ class ManageProductScreen extends StatelessWidget {
 
   Future<void> refreshScreen(BuildContext context) async {
     await Provider.of<Products>(context, listen: false)
-        .getProductsFromFireBase();
+        .getProductsFromFireBase(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<Products>(context);
     return Scaffold(
       drawer: const AppDrawer(),
       appBar: AppBar(
@@ -36,19 +35,40 @@ class ManageProductScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: () => refreshScreen(context),
-        child: ListView.builder(
-          padding: const EdgeInsets.all(10),
-          itemBuilder: (ctx, index) {
-            final product = products.list[index];
-            return ChangeNotifierProvider.value(
-              value: product,
-              child: const ManagaProductDetails(),
+      body: FutureBuilder(
+        future: refreshScreen(context),
+        builder: (ctx, dataSnapshot) {
+          if (dataSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.amber,
+              ),
             );
-          },
-          itemCount: products.list.length,
-        ),
+          } else if (dataSnapshot.connectionState == ConnectionState.done) {
+            return RefreshIndicator(
+              onRefresh: () => refreshScreen(context),
+              child: Consumer<Products>(
+                builder: (c, products, child) {
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(10),
+                    itemBuilder: (ctx, index) {
+                      final product = products.list[index];
+                      return ChangeNotifierProvider.value(
+                        value: product,
+                        child: const ManagaProductDetails(),
+                      );
+                    },
+                    itemCount: products.list.length,
+                  );
+                },
+              ),
+            );
+          } else {
+            return const Center(
+              child: Text('Xatolik sodir bo\'di'),
+            );
+          }
+        },
       ),
     );
   }

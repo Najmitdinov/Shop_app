@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth.dart';
 
 import '../screens/manage_product_screen.dart';
 import '../screens/my_home_page.dart';
@@ -48,6 +51,14 @@ class AppDrawer extends StatelessWidget {
             () => Navigator.of(context)
                 .pushReplacementNamed(ManageProductScreen.routeName),
           ),
+          const Divider(
+            height: 0,
+          ),
+          listItem(
+            Icons.exit_to_app_rounded,
+            'Chiqish',
+            () => Provider.of<Auth>(context, listen: false).logOut(),
+          )
         ],
       ),
     );

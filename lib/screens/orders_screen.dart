@@ -23,8 +23,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return Provider.of<Orders>(context, listen: false).getOrdersFromFirebase();
   }
 
-  
-
   @override
   void initState() {
     _future = orderFuture();
@@ -45,7 +43,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
           builder: (ctx, dataSnapShot) {
             if (dataSnapShot.connectionState == ConnectionState.waiting) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.amber,
+                ),
               );
             } else {
               if (dataSnapShot.error == null) {
